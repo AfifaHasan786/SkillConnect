@@ -8,6 +8,7 @@ com\skillconnect\controllers\ProfileController.class
 com\skillconnect\controllers\DashboardController.class
 com\skillconnect\controllers\ChatController$2.class
 com\skillconnect\Main.class
+com\skillconnect\models\Skill.class
 com\skillconnect\utils\DatabaseConnection.class
 com\skillconnect\components\MessageCell.class
 com\skillconnect\utils\DatabaseInitializer.class
@@ -20,6 +21,7 @@ com\skillconnect\controllers\ViewRequestsController.class
 com\skillconnect\models\VolunteerProfile.class
 com\skillconnect\utils\SessionManager.class
 com\skillconnect\controllers\MyApplicationsController.class
+com\skillconnect\services\ApplicationService.class
 com\skillconnect\models\Message.class
 com\skillconnect\models\Request.class
 com\skillconnect\models\ChatMessage.class
