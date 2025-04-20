@@ -1,6 +1,7 @@
 package com.skillconnect.models;
 
 import com.skillconnect.utils.DatabaseConnection;
+import com.skillconnect.utils.PasswordUtils;
 import javafx.collections.ObservableList;
 import javafx.beans.property.*;
 
@@ -15,15 +16,17 @@ public class User {
     private final IntegerProperty id;
     private final StringProperty username;
     private final StringProperty password;
+    private final StringProperty salt;
     private final StringProperty role;
     private final StringProperty email;
     private final StringProperty phone;
     private List<String> skills;
 
-    public User(int id, String username, String password, String role) {
+    public User(int id, String username, String password, String salt, String role) {
         this.id = new SimpleIntegerProperty(id);
         this.username = new SimpleStringProperty(username);
         this.password = new SimpleStringProperty(password);
+        this.salt = new SimpleStringProperty(salt);
         this.role = new SimpleStringProperty(role);
         this.skills = new ArrayList<>();
         this.email = new SimpleStringProperty();
@@ -32,13 +35,14 @@ public class User {
 
     // Constructor for creating User objects without password (for display purposes)
     public User(int id, String username, String role) {
-        this(id, username, "", role);
+        this(id, username, "", "", role);
     }
 
     // Getters
     public int getId() { return id.get(); }
     public String getUsername() { return username.get(); }
     public String getPassword() { return password.get(); }
+    public String getSalt() { return salt.get(); }
     public String getRole() { return role.get(); }
     public String getEmail() { return email.get(); }
     public String getPhone() { return phone.get(); }
@@ -71,6 +75,7 @@ public class User {
                         rs.getInt("id"),
                         rs.getString("username"),
                         rs.getString("password"),
+                        rs.getString("salt"),
                         rs.getString("role")
                     );
                     user.loadSkills();
@@ -82,24 +87,29 @@ public class User {
     }
 
     public static User authenticate(String username, String password, String role) throws SQLException {
-        String query = "SELECT * FROM users WHERE username = ? AND password = ? AND role = ?";
+        String query = "SELECT * FROM users WHERE username = ? AND role = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
 
             stmt.setString(1, username);
-            stmt.setString(2, password);
-            stmt.setString(3, role);
+            stmt.setString(2, role);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    User user = new User(
-                        rs.getInt("id"),
-                        rs.getString("username"),
-                        rs.getString("password"),
-                        rs.getString("role")
-                    );
-                    user.loadProfile();
-                    return user;
+                    String storedPassword = rs.getString("password");
+                    String salt = rs.getString("salt");
+
+                    if (PasswordUtils.verifyPassword(password, salt, storedPassword)) {
+                        User user = new User(
+                            rs.getInt("id"),
+                            rs.getString("username"),
+                            rs.getString("password"),
+                            rs.getString("salt"),
+                            rs.getString("role")
+                        );
+                        user.loadProfile();
+                        return user;
+                    }
                 }
             }
         }
@@ -107,13 +117,21 @@ public class User {
     }
 
     public static void register(String username, String password, String role) throws SQLException {
-        String query = "INSERT INTO users (username, password, role) VALUES (?, ?, ?)";
+        if (!PasswordUtils.isValidPassword(password)) {
+            throw new IllegalArgumentException("Password must contain at least 8 characters, including uppercase, lowercase, numbers, and special characters");
+        }
+
+        String salt = PasswordUtils.generateSalt();
+        String hashedPassword = PasswordUtils.hashPassword(password, salt);
+
+        String query = "INSERT INTO users (username, password, salt, role) VALUES (?, ?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
 
             stmt.setString(1, username);
-            stmt.setString(2, password);
-            stmt.setString(3, role);
+            stmt.setString(2, hashedPassword);
+            stmt.setString(3, salt);
+            stmt.setString(4, role);
 
             stmt.executeUpdate();
         }

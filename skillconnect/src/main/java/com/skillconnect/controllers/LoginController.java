@@ -2,6 +2,7 @@ package com.skillconnect.controllers;
 
 import com.jfoenix.controls.*;
 import com.skillconnect.models.User;
+import com.skillconnect.utils.PasswordUtils;
 import com.skillconnect.utils.SessionManager;
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
@@ -95,6 +96,16 @@ public class LoginController {
                 return;
             }
 
+            if (!PasswordUtils.isValidPassword(password)) {
+                showAlert("Error", "Password must contain:\n" +
+                        "• At least 8 characters\n" +
+                        "• At least one uppercase letter\n" +
+                        "• At least one lowercase letter\n" +
+                        "• At least one number\n" +
+                        "• At least one special character (!@#$%^&* etc.)");
+                return;
+            }
+
             if (User.usernameExists(username)) {
                 showAlert("Error", "Username already exists");
                 return;
@@ -105,6 +116,8 @@ public class LoginController {
             switchToLogin();
         } catch (SQLException e) {
             showAlert("Error", "Database error: " + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            showAlert("Error", e.getMessage());
         }
     }
 

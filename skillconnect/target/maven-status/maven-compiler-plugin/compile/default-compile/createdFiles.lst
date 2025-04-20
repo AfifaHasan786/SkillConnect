@@ -25,6 +25,7 @@ com\skillconnect\services\ApplicationService.class
 com\skillconnect\models\Message.class
 com\skillconnect\models\Request.class
 com\skillconnect\models\ChatMessage.class
+com\skillconnect\utils\PasswordUtils.class
 com\skillconnect\utils\AlertHelper.class
 com\skillconnect\controllers\ChatController.class
 com\skillconnect\utils\StatusCellFactory.class

@@ -8,6 +8,7 @@ D:\javafx project\skillconnect\src\main\java\com\skillconnect\models\Project.jav
 D:\javafx project\skillconnect\src\main\java\com\skillconnect\models\Request.java
 D:\javafx project\skillconnect\src\main\java\com\skillconnect\controllers\ViewRequestsController.java
 D:\javafx project\skillconnect\src\main\java\com\skillconnect\controllers\AdminDashboardController.java
+D:\javafx project\skillconnect\src\main\java\com\skillconnect\utils\PasswordUtils.java
 D:\javafx project\skillconnect\src\main\java\com\skillconnect\controllers\ProfileController.java
 D:\javafx project\skillconnect\src\main\java\com\skillconnect\models\Skill.java
 D:\javafx project\skillconnect\src\main\java\com\skillconnect\components\MessageCell.java
