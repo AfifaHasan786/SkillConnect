@@ -7,34 +7,66 @@
 <?import de.jensd.fx.glyphs.fontawesome.*?>
 <?import javafx.geometry.Insets?>
 
-<VBox fx:id="root" spacing="15" xmlns:fx="http://javafx.com/fxml"
+<VBox fx:id="root" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.skillconnect.controllers.ApplyProjectDialogController"
-      styleClass="dialog-container">
+      styleClass="dialog-container" spacing="0">
 
-    <padding>
-        <Insets top="20" right="20" bottom="20" left="20"/>
-    </padding>
-
-    <Text fx:id="projectTitle" styleClass="dialog-title"/>
-
-    <Text fx:id="projectDescription" styleClass="dialog-description" wrappingWidth="400"/>
-
-    <VBox spacing="10">
-        <Label text="Required Skills:" styleClass="section-label"/>
-        <FlowPane fx:id="requiredSkillsContainer" hgap="10" vgap="10" styleClass="skills-container"/>
-    </VBox>
-
-    <VBox spacing="10">
-        <Label text="Your Skills:" styleClass="section-label"/>
-        <HBox spacing="10" alignment="CENTER_LEFT">
-            <ComboBox fx:id="skillsComboBox" prefWidth="200"/>
-            <JFXButton fx:id="addSkillButton" text="Add Skill" styleClass="button-primary"/>
-        </HBox>
-        <FlowPane fx:id="selectedSkillsContainer" hgap="10" vgap="10" styleClass="skills-container"/>
-    </VBox>
-
-    <HBox spacing="10" alignment="CENTER_RIGHT">
-        <JFXButton text="Cancel" onAction="#handleCancel" styleClass="button-secondary"/>
-        <JFXButton text="Apply" onAction="#handleApply" styleClass="button-primary"/>
+    <!-- Title Bar -->
+    <HBox styleClass="dialog-title-bar" alignment="CENTER_LEFT">
+        <FontAwesomeIconView glyphName="PAPER_PLANE" size="16" styleClass="dialog-icon"/>
+        <Label text="Apply for Project" styleClass="dialog-header"/>
     </HBox>
+
+    <!-- Content Area -->
+    <VBox spacing="20" styleClass="dialog-content">
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
+
+        <!-- Project Details Section -->
+        <VBox spacing="15">
+            <Label text="Project Details" styleClass="section-header"/>
+
+            <GridPane vgap="10" hgap="15">
+                <columnConstraints>
+                    <ColumnConstraints minWidth="80"/>
+                    <ColumnConstraints hgrow="ALWAYS"/>
+                </columnConstraints>
+
+                <Label text="Title" GridPane.rowIndex="0" GridPane.columnIndex="0" styleClass="field-label"/>
+                <Label fx:id="projectTitle" GridPane.rowIndex="0" GridPane.columnIndex="1" styleClass="field-value"/>
+
+                <Label text="Description" GridPane.rowIndex="1" GridPane.columnIndex="0" styleClass="field-label"/>
+                <Label fx:id="projectDescription" wrapText="true" GridPane.rowIndex="1" GridPane.columnIndex="1"
+                       styleClass="field-value"/>
+            </GridPane>
+        </VBox>
+
+        <!-- Skills Section -->
+        <VBox spacing="15">
+            <Label text="Skills" styleClass="section-header"/>
+
+            <!-- Required Skills -->
+            <VBox spacing="5">
+                <Label text="Required Skills" styleClass="subsection-label"/>
+                <FlowPane fx:id="requiredSkillsContainer" hgap="10" vgap="10" styleClass="skills-container"/>
+            </VBox>
+
+            <!-- Select Your Skills -->
+            <VBox spacing="5">
+                <Label text="Select Your Matching Skills" styleClass="subsection-label"/>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <ComboBox fx:id="skillsComboBox" prefWidth="300" promptText="Select skills that match the requirements"/>
+                    <JFXButton fx:id="addSkillButton" text="Add" styleClass="button-primary"/>
+                </HBox>
+                <FlowPane fx:id="selectedSkillsContainer" hgap="10" vgap="10" styleClass="skills-container"/>
+            </VBox>
+        </VBox>
+
+        <!-- Action Buttons -->
+        <HBox spacing="10" alignment="CENTER_RIGHT" styleClass="dialog-actions">
+            <JFXButton fx:id="cancelButton" text="Cancel" onAction="#handleCancel" styleClass="button-secondary"/>
+            <JFXButton fx:id="applyButton" text="Apply" onAction="#handleApply" styleClass="button-primary"/>
+        </HBox>
+    </VBox>
 </VBox>
