@@ -5,6 +5,9 @@ import com.skillconnect.models.Project;
 import com.skillconnect.models.ProjectApplication;
 import com.skillconnect.models.User;
 import com.skillconnect.models.VolunteerProfile;
+import com.skillconnect.models.Skill;
+import com.skillconnect.services.ApplicationService;
+import com.skillconnect.utils.AlertUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -20,86 +23,165 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Arrays;
-import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.Arrays;
 
 public class ApplyProjectDialogController {
     @FXML private Text projectTitle;
     @FXML private Text projectDescription;
     @FXML private FlowPane requiredSkillsContainer;
-    @FXML private ComboBox<String> skillsComboBox;
+    @FXML private ComboBox<Skill> skillComboBox;
     @FXML private FlowPane selectedSkillsContainer;
     @FXML private JFXButton addSkillButton;
     @FXML private VBox root;
+    @FXML private Button applyButton;
+    @FXML private Button cancelButton;
 
     private Project project;
     private User currentUser;
-    private List<String> selectedSkills = new ArrayList<>();
-    private ObservableList<String> availableSkills = FXCollections.observableArrayList();
-    private List<String> requiredSkillsList = new ArrayList<>();
+    private Set<Skill> selectedSkills;
+    private ApplicationService applicationService;
+    private ObservableList<Skill> availableSkills = FXCollections.observableArrayList();
+    private List<Skill> requiredSkillsList = new ArrayList<>();
 
-    public void initialize(Project project, User user) {
-        this.project = project;
-        this.currentUser = user;
+    public void initialize() {
+        selectedSkills = new HashSet<>();
+        applicationService = new ApplicationService();
 
-        // Set project details
-        projectTitle.setText(project.getTitle());
-        projectDescription.setText(project.getDescription());
+        setupEventHandlers();
 
-        // Load required skills
-        requiredSkillsList = Arrays.stream(project.getRequiredSkills().split(","))
-                                  .map(String::trim)
-                                  .collect(Collectors.toList());
+        // Load custom stylesheet
+        root.getStylesheets().add(getClass().getResource("/styles/apply-dialog.css").toExternalForm());
 
-        for (String skill : requiredSkillsList) {
-            addSkillTag(skill, requiredSkillsContainer);
+        // Set project details if project is not null
+        if (project != null) {
+            projectTitle.setText(project.getTitle());
+            projectDescription.setText(project.getDescription());
+
+            // Load required skills
+            if (project.getRequiredSkills() != null) {
+                requiredSkillsList = Arrays.stream(project.getRequiredSkills().split(","))
+                                      .map(String::trim)
+                                      .map(Skill::new)
+                                      .collect(Collectors.toList());
+
+                for (Skill skill : requiredSkillsList) {
+                    addSkillTag(skill, requiredSkillsContainer);
+                }
+            }
         }
 
         // Initialize ComboBox with empty list first
-        skillsComboBox.setItems(FXCollections.observableArrayList());
+        skillComboBox.setItems(FXCollections.observableArrayList());
 
         // Load volunteer's skills
         try {
-            VolunteerProfile volunteer = VolunteerProfile.getByUserId(currentUser.getId());
-            if (volunteer != null) {
-                availableSkills.addAll(volunteer.getSkills());
-                // Update ComboBox items after loading
-                skillsComboBox.setItems(availableSkills);
+            if (currentUser != null) {
+                VolunteerProfile volunteer = VolunteerProfile.getByUserId(currentUser.getId());
+                if (volunteer != null && volunteer.getSkills() != null) {
+                    // Convert comma-separated skills string to Skill objects
+                    List<Skill> skills = Arrays.stream(volunteer.getSkills().split(","))
+                                             .map(String::trim)
+                                             .filter(s -> !s.isEmpty())
+                                             .map(Skill::new)
+                                             .collect(Collectors.toList());
+                    availableSkills.addAll(skills);
+                    skillComboBox.setItems(availableSkills);
+                }
             }
         } catch (SQLException e) {
             showAlert("Error", "Failed to load skills: " + e.getMessage(), Alert.AlertType.ERROR);
         }
 
         // Prevent null selection
-        skillsComboBox.setOnShowing(e -> {
-            if (skillsComboBox.getValue() == null && !availableSkills.isEmpty()) {
-                skillsComboBox.setValue(availableSkills.get(0));
+        skillComboBox.setOnShowing(e -> {
+            if (skillComboBox.getValue() == null && !availableSkills.isEmpty()) {
+                skillComboBox.setValue(availableSkills.get(0));
             }
         });
 
         // Setup skill selection with null check
         addSkillButton.setOnAction(e -> {
-            if (skillsComboBox.getValue() != null) {
+            if (skillComboBox.getValue() != null) {
                 handleAddSkill();
             }
         });
 
-        skillsComboBox.setOnAction(e -> {
-            String selected = skillsComboBox.getValue();
-            if (selected != null && !selectedSkills.contains(selected)) {
+        skillComboBox.setOnAction(e -> {
+            Skill selectedSkill = skillComboBox.getValue();
+            if (selectedSkill != null && !selectedSkills.contains(selectedSkill)) {
                 handleAddSkill();
             }
         });
+
+        // Add style classes to buttons
+        addSkillButton.getStyleClass().add("button-primary");
+    }
+
+    private void setupEventHandlers() {
+        skillComboBox.setOnAction(event -> {
+            Skill selectedSkill = skillComboBox.getValue();
+            if (selectedSkill != null && !selectedSkills.contains(selectedSkill)) {
+                selectedSkills.add(selectedSkill);
+                updateSelectedSkillsDisplay();
+                skillComboBox.setValue(null);
+            }
+        });
+
+        applyButton.setOnAction(event -> handleApply());
+        cancelButton.setOnAction(event -> closeDialog());
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+        if (project != null && projectTitle != null && projectDescription != null) {
+            projectTitle.setText(project.getTitle());
+            projectDescription.setText(project.getDescription());
+            displayRequiredSkills();
+        }
+    }
+
+    public void setCurrentUser(User user) {
+        this.currentUser = user;
+        populateUserSkills();
+    }
+
+    private void displayRequiredSkills() {
+        requiredSkillsContainer.getChildren().clear();
+        for (Skill skill : requiredSkillsList) {
+            Label skillChip = createSkillChip(skill);
+            requiredSkillsContainer.getChildren().add(skillChip);
+        }
+    }
+
+    private void populateUserSkills() {
+        skillComboBox.getItems().clear();
+        skillComboBox.getItems().addAll(availableSkills);
+    }
+
+    private void updateSelectedSkillsDisplay() {
+        selectedSkillsContainer.getChildren().clear();
+        for (Skill skill : selectedSkills) {
+            Label skillChip = createSkillChip(skill);
+            selectedSkillsContainer.getChildren().add(skillChip);
+        }
+    }
+
+    private Label createSkillChip(Skill skill) {
+        Label chip = new Label(skill.getName());
+        chip.getStyleClass().add("skill-chip");
+        return chip;
     }
 
     private void handleAddSkill() {
-        String selectedSkill = skillsComboBox.getValue();
+        Skill selectedSkill = skillComboBox.getValue();
         if (selectedSkill != null && !selectedSkills.contains(selectedSkill)) {
             selectedSkills.add(selectedSkill);
             addSelectedSkillChip(selectedSkill);
-            skillsComboBox.setValue(null);
+            skillComboBox.setValue(null);
 
             // Animate the new skill chip
             HBox lastChip = (HBox) selectedSkillsContainer.getChildren().get(selectedSkillsContainer.getChildren().size() - 1);
@@ -110,18 +192,18 @@ public class ApplyProjectDialogController {
         }
     }
 
-    private void addSkillTag(String skill, FlowPane container) {
-        Label skillLabel = new Label(skill);
+    private void addSkillTag(Skill skill, FlowPane container) {
+        Label skillLabel = new Label(skill.getName());
         skillLabel.getStyleClass().add("skill-tag");
         container.getChildren().add(skillLabel);
     }
 
-    private void addSelectedSkillChip(String skill) {
+    private void addSelectedSkillChip(Skill skill) {
         HBox chip = new HBox();
         chip.getStyleClass().add("skill-chip");
         chip.setOpacity(0.0); // Start invisible for animation
 
-        Label skillLabel = new Label(skill);
+        Label skillLabel = new Label(skill.getName());
 
         FontAwesomeIconView closeIcon = new FontAwesomeIconView();
         closeIcon.setGlyphName("TIMES");
@@ -148,48 +230,30 @@ public class ApplyProjectDialogController {
     @FXML
     private void handleApply() {
         if (selectedSkills.isEmpty()) {
-            showAlert("Error", "Please select at least one matching skill.", Alert.AlertType.WARNING);
+            showAlert("Error", "Please select at least one skill", Alert.AlertType.ERROR);
             return;
         }
 
-        // Check if selected skills match required skills
-        boolean hasMatchingSkill = selectedSkills.stream()
-            .anyMatch(requiredSkillsList::contains);
-
-        if (!hasMatchingSkill) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Warning");
-            alert.setHeaderText(null);
-            alert.setContentText("None of your selected skills match the required skills for this project. Are you sure you want to apply?");
-
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.isPresent() && result.get() == ButtonType.OK) {
-                submitApplication();
-            }
-        } else {
-            submitApplication();
-        }
-    }
-
-    private void submitApplication() {
         try {
-            // Create project application with selected skills
-            ProjectApplication.apply(project.getId(), currentUser.getId(), selectedSkills);
-
-            // Show success message
-            showAlert("Success", "Your application has been submitted successfully!", Alert.AlertType.INFORMATION);
-
-            // Close the dialog
-            Stage stage = (Stage) root.getScene().getWindow();
-            stage.close();
-        } catch (SQLException e) {
-            showAlert("Error", "Failed to apply for project: " + e.getMessage(), Alert.AlertType.ERROR);
+            boolean success = applicationService.submitApplication(project.getId(), currentUser, new ArrayList<>(selectedSkills), "");
+            if (success) {
+                showAlert("Success", "Application submitted successfully", Alert.AlertType.INFORMATION);
+                closeDialog();
+            } else {
+                showAlert("Error", "Failed to submit application", Alert.AlertType.ERROR);
+            }
+        } catch (Exception e) {
+            showAlert("Error", "Failed to submit application: " + e.getMessage(), Alert.AlertType.ERROR);
         }
     }
 
     @FXML
     private void handleCancel() {
-        Stage stage = (Stage) root.getScene().getWindow();
+        closeDialog();
+    }
+
+    private void closeDialog() {
+        Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
     }
 

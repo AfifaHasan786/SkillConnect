@@ -128,12 +128,18 @@ public class BrowseProjectsController implements Initializable {
             Stage dialog = new Stage();
             dialog.initModality(Modality.APPLICATION_MODAL);
             dialog.setTitle("Apply for Project");
-            dialog.setScene(new Scene(loader.load()));
+
+            Scene scene = new Scene(loader.load());
+            dialog.setScene(scene);
 
             ApplyProjectDialogController controller = loader.getController();
-            controller.initialize(project, currentUser);
+            controller.setProject(project);
+            controller.setCurrentUser(currentUser);
 
             dialog.showAndWait();
+
+            // Refresh the projects list after dialog is closed
+            loadProjects();
         } catch (Exception e) {
             AlertUtils.showErrorAlert(
                 "Dialog Error",
