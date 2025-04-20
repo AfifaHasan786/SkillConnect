@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.paint.Color?>
+<?import org.controlsfx.control.textfield.CustomTextField?>
+
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="com.skillconnect.controllers.ChatController"
+           styleClass="chat-container">
+
+    <VBox spacing="10">
+        <!-- Search Area -->
+        <HBox spacing="10" alignment="CENTER">
+            <CustomTextField fx:id="searchField" promptText="Search for volunteers..." HBox.hgrow="ALWAYS"/>
+        </HBox>
+
+        <!-- Search Results -->
+        <ListView fx:id="searchResultsList" maxHeight="200" styleClass="search-results-list"/>
+
+        <!-- Chat Area -->
+        <ScrollPane fx:id="chatScrollPane" VBox.vgrow="ALWAYS" fitToWidth="true" styleClass="chat-scroll-pane">
+            <ListView fx:id="messagesList" styleClass="messages-list">
+                <padding>
+                    <Insets top="10" right="10" bottom="10" left="10"/>
+                </padding>
+            </ListView>
+        </ScrollPane>
+
+        <!-- Message Input Area -->
+        <HBox spacing="10" alignment="CENTER">
+            <TextField fx:id="messageField" promptText="Type your message..."
+                      HBox.hgrow="ALWAYS" onAction="#handleSendMessage"/>
+            <Button fx:id="sendButton" text="Send" onAction="#handleSendMessage" styleClass="send-button"/>
+        </HBox>
+    </VBox>
+
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+</StackPane>

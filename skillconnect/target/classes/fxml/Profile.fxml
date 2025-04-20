@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="20" alignment="TOP_CENTER" styleClass="profile-container"
+      xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.skillconnect.controllers.ProfileController">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="Profile" styleClass="title-label"/>
+
+    <GridPane vgap="10" hgap="10">
+        <Label text="Email:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <TextField fx:id="emailField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+        <Label text="Phone:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <TextField fx:id="phoneField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+    </GridPane>
+
+    <VBox spacing="10">
+        <Label text="Skills"/>
+        <HBox spacing="10">
+            <TextField fx:id="skillInput" promptText="Enter a skill" HBox.hgrow="ALWAYS"/>
+            <Button text="Add" onAction="#handleAddSkill"/>
+        </HBox>
+        <ListView fx:id="skillsList" prefHeight="200"/>
+        <Button text="Remove Selected Skill" onAction="#handleRemoveSkill"/>
+    </VBox>
+
+    <Button text="Save Changes" onAction="#handleSaveProfile"
+            styleClass="primary-button"/>
+</VBox>

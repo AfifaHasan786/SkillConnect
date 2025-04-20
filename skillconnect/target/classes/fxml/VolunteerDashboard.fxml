@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.shape.Circle?>
+<?import de.jensd.fx.glyphs.fontawesome.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="com.skillconnect.controllers.VolunteerDashboardController"
+           stylesheets="/css/dashboard.css"
+           styleClass="dashboard-root">
+
+    <!-- Top Navigation Bar -->
+    <top>
+        <HBox styleClass="top-bar">
+            <HBox styleClass="brand-container" spacing="15" alignment="CENTER_LEFT">
+                <Circle radius="20" styleClass="brand-circle" fill="#2196F3"/>
+                <Label text="SkillConnect" styleClass="brand-text"/>
+            </HBox>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <HBox styleClass="user-container" alignment="CENTER_RIGHT" spacing="20">
+                <Label fx:id="welcomeLabel" styleClass="welcome-text"/>
+                <JFXButton text="Logout"
+                          onAction="#handleLogout"
+                          styleClass="logout-button">
+                    <graphic>
+                        <FontAwesomeIconView glyphName="SIGN_OUT" size="16" styleClass="button-icon"/>
+                    </graphic>
+                </JFXButton>
+            </HBox>
+            <padding>
+                <Insets top="15" right="30" bottom="15" left="30"/>
+            </padding>
+        </HBox>
+    </top>
+
+    <!-- Left Sidebar -->
+    <left>
+        <VBox styleClass="sidebar" prefWidth="280" spacing="20">
+            <padding>
+                <Insets top="40" right="25" bottom="40" left="25"/>
+            </padding>
+
+            <VBox spacing="30">
+                <Label text="Navigation" styleClass="sidebar-header"/>
+
+                <VBox spacing="15" styleClass="nav-buttons-container">
+                    <JFXButton text="Browse Projects" onAction="#showProjects"
+                              styleClass="nav-button" maxWidth="Infinity">
+                        <graphic>
+                            <FontAwesomeIconView glyphName="SEARCH" size="18" styleClass="nav-icon"/>
+                        </graphic>
+                    </JFXButton>
+
+                    <JFXButton text="My Applications" onAction="#showApplications"
+                              styleClass="nav-button" maxWidth="Infinity">
+                        <graphic>
+                            <FontAwesomeIconView glyphName="FILE_TEXT" size="18" styleClass="nav-icon"/>
+                        </graphic>
+                    </JFXButton>
+
+                    <JFXButton text="My Profile" onAction="#showProfile"
+                              styleClass="nav-button" maxWidth="Infinity">
+                        <graphic>
+                            <FontAwesomeIconView glyphName="USER" size="18" styleClass="nav-icon"/>
+                        </graphic>
+                    </JFXButton>
+
+                    <JFXButton text="Messages" onAction="#showMessages"
+                              styleClass="nav-button" maxWidth="Infinity">
+                        <graphic>
+                            <FontAwesomeIconView glyphName="COMMENTS" size="18" styleClass="nav-icon"/>
+                        </graphic>
+                    </JFXButton>
+                </VBox>
+            </VBox>
+
+            <Region VBox.vgrow="ALWAYS"/>
+
+            <VBox spacing="15" styleClass="user-info-container">
+                <Label fx:id="userNameLabel" styleClass="user-name"/>
+                <Label fx:id="userRoleLabel" styleClass="user-role"/>
+                <JFXButton text="Logout" onAction="#handleLogout"
+                          styleClass="sidebar-logout-button" maxWidth="Infinity">
+                    <graphic>
+                        <FontAwesomeIconView glyphName="SIGN_OUT" size="16" styleClass="logout-icon"/>
+                    </graphic>
+                </JFXButton>
+            </VBox>
+        </VBox>
+    </left>
+
+    <!-- Main Content Area -->
+    <center>
+        <ScrollPane fitToWidth="true" styleClass="main-scroll-pane">
+            <VBox fx:id="mainContent" styleClass="main-content">
+                <padding>
+                    <Insets top="40" right="40" bottom="40" left="40"/>
+                </padding>
+            </VBox>
+        </ScrollPane>
+    </center>
+
+    <padding>
+        <Insets top="0" right="30" bottom="30" left="0"/>
+    </padding>
+</BorderPane>

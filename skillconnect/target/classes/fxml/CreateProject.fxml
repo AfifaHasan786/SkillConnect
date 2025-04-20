@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import com.jfoenix.controls.*?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+
+<VBox spacing="30" styleClass="content-container" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.skillconnect.controllers.CreateProjectController">
+
+    <padding>
+        <Insets top="40" right="40" bottom="40" left="40"/>
+    </padding>
+
+    <Label text="Create New Project" styleClass="section-title"/>
+
+    <VBox spacing="25">
+        <!-- Project Title -->
+        <VBox spacing="10">
+            <Label text="Project Title" styleClass="field-label"/>
+            <JFXTextField fx:id="titleField"
+                         promptText="Enter project title"
+                         styleClass="text-field"/>
+        </VBox>
+
+        <!-- Description -->
+        <VBox spacing="10">
+            <Label text="Description" styleClass="field-label"/>
+            <JFXTextArea fx:id="descriptionField"
+                        promptText="Enter project description"
+                        styleClass="text-area"
+                        prefRowCount="5"
+                        wrapText="true"/>
+        </VBox>
+
+        <!-- Required Skills -->
+        <VBox spacing="10">
+            <Label text="Required Skills" styleClass="field-label"/>
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <JFXTextField fx:id="skillField"
+                             promptText="Enter a skill"
+                             styleClass="text-field"
+                             HBox.hgrow="ALWAYS"/>
+                <JFXButton text="Add"
+                          onAction="#handleAddSkill"
+                          styleClass="button-secondary">
+                    <graphic>
+                        <FontAwesomeIconView glyphName="PLUS" size="14"/>
+                    </graphic>
+                </JFXButton>
+            </HBox>
+
+            <!-- Skills Container -->
+            <FlowPane fx:id="skillsContainer"
+                      hgap="10"
+                      vgap="10"
+                      styleClass="skills-container"/>
+        </VBox>
+    </VBox>
+
+    <!-- Buttons -->
+    <HBox spacing="15" alignment="CENTER_RIGHT">
+        <JFXButton text="Cancel"
+                  onAction="#handleCancel"
+                  styleClass="button-secondary"/>
+        <JFXButton text="Create Project"
+                  onAction="#handleCreate"
+                  styleClass="button-primary"/>
+    </HBox>
+
+</VBox>

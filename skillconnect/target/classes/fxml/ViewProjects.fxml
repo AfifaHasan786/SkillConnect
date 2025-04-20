@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.paint.Color?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.skillconnect.controllers.ViewProjectsController"
+      styleClass="projects-container"
+      spacing="20">
+
+    <Text text="My Projects" styleClass="section-title"/>
+
+    <FlowPane fx:id="projectsContainer"
+             hgap="20"
+             vgap="20"
+             styleClass="projects-grid"/>
+
+    <VBox fx:id="emptyState"
+          alignment="CENTER"
+          spacing="10"
+          visible="false">
+        <Text text="No projects yet" styleClass="empty-state-text"/>
+        <JFXButton text="Create New Project"
+                  styleClass="create-button"
+                  onAction="#handleCreateProject"/>
+    </VBox>
+</VBox>

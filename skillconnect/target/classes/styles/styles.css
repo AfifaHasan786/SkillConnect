@@ -1,0 +1,133 @@
+.dialog-pane {
+    -fx-background-color: white;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0, 0, 2);
+}
+
+.dialog-header {
+    -fx-padding: 0 0 10 0;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 0 0 1 0;
+}
+
+.header-icon {
+    -fx-fill: #2196F3;
+    -fx-padding: 0 10 0 0;
+}
+
+.dialog-title {
+    -fx-fill: #2c3e50;
+    -fx-font-weight: bold;
+}
+
+.section-box {
+    -fx-background-color: #f8f9fa;
+    -fx-padding: 15;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-border-color: #e9ecef;
+    -fx-border-width: 1;
+}
+
+.section-title {
+    -fx-font-size: 16;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.field-label {
+    -fx-font-size: 13;
+    -fx-text-fill: #6c757d;
+    -fx-font-weight: bold;
+}
+
+.project-title {
+    -fx-font-size: 16;
+    -fx-fill: #2c3e50;
+}
+
+.project-description {
+    -fx-font-size: 14;
+    -fx-fill: #495057;
+}
+
+.skills-container {
+    -fx-padding: 5;
+    -fx-min-height: 40;
+    -fx-background-color: white;
+    -fx-border-color: #dee2e6;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+}
+
+.skill-tag {
+    -fx-padding: 5 10;
+    -fx-background-color: #e3f2fd;
+    -fx-text-fill: #1976D2;
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+    -fx-font-size: 12;
+}
+
+.skill-chip {
+    -fx-padding: 5 10;
+    -fx-background-color: #e3f2fd;
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+    -fx-spacing: 5;
+    -fx-alignment: center;
+}
+
+.skill-chip .label {
+    -fx-text-fill: #1976D2;
+    -fx-font-size: 12;
+}
+
+.close-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #1976D2;
+    -fx-padding: 0 0 0 5;
+    -fx-min-width: 20;
+    -fx-min-height: 20;
+    -fx-cursor: hand;
+}
+
+.close-button:hover {
+    -fx-text-fill: #1565C0;
+}
+
+.skills-combo {
+    -fx-pref-width: 300;
+    -fx-background-color: white;
+    -fx-border-color: #dee2e6;
+    -fx-border-radius: 4;
+}
+
+.button-primary {
+    -fx-background-color: #2196F3;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8 15;
+    -fx-cursor: hand;
+}
+
+.button-primary:hover {
+    -fx-background-color: #1976D2;
+}
+
+.button-secondary {
+    -fx-background-color: #e9ecef;
+    -fx-text-fill: #495057;
+    -fx-font-weight: bold;
+    -fx-padding: 8 15;
+    -fx-cursor: hand;
+}
+
+.button-secondary:hover {
+    -fx-background-color: #dee2e6;
+}
+
+.dialog-actions {
+    -fx-padding: 15 0 0 0;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1 0 0 0;
+}

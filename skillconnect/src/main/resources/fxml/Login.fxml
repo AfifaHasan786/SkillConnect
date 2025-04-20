@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.Insets?>
+
+<HBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.skillconnect.controllers.LoginController"
+      style="-fx-background-color: white;">
+
+    <!-- Left Panel - Welcome Section -->
+    <VBox prefWidth="500" alignment="CENTER" spacing="20"
+          style="-fx-background-color: #2196F3;">
+        <padding>
+            <Insets top="40" right="40" bottom="40" left="40"/>
+        </padding>
+
+        <Text text="Welcome to"
+              style="-fx-fill: white; -fx-font-size: 24px; -fx-font-family: 'Segoe UI Light';"/>
+        <Text text="SkillConnect"
+              style="-fx-fill: white; -fx-font-size: 48px; -fx-font-weight: bold;
+                     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 0);"/>
+        <Text text="Connect with skilled professionals and collaborate on exciting projects"
+              style="-fx-fill: white; -fx-font-size: 16px; -fx-text-alignment: center; -fx-opacity: 0.9;"
+              wrappingWidth="400"/>
+    </VBox>
+
+    <!-- Right Panel - Forms Container -->
+    <StackPane prefWidth="500">
+        <!-- Login Form -->
+        <VBox fx:id="loginForm" alignment="CENTER" spacing="20"
+              style="-fx-padding: 40px;">
+            <Text text="Login"
+                  style="-fx-font-size: 32px; -fx-fill: #2196F3; -fx-font-weight: bold;"/>
+
+            <VBox spacing="20" style="-fx-padding: 20 0;">
+                <JFXTextField fx:id="loginUsername"
+                            promptText="Username"
+                            style="-fx-font-size: 14px; -jfx-focus-color: #2196F3; -jfx-unfocus-color: #BDBDBD;"/>
+                <JFXPasswordField fx:id="loginPassword"
+                                promptText="Password"
+                                style="-fx-font-size: 14px; -jfx-focus-color: #2196F3; -jfx-unfocus-color: #BDBDBD;"/>
+
+                <VBox spacing="10">
+                    <Text text="Choose Role:"
+                          style="-fx-fill: #757575; -fx-font-size: 14px;"/>
+                    <HBox spacing="30">
+                        <JFXRadioButton fx:id="loginAdminRadio"
+                                      text="Project Admin"
+                                      style="-jfx-selected-color: #2196F3;"
+                                      selected="true"/>
+                        <JFXRadioButton fx:id="loginVolunteerRadio"
+                                      text="Volunteer"
+                                      style="-jfx-selected-color: #2196F3;"/>
+                    </HBox>
+                </VBox>
+
+                <JFXButton fx:id="loginButton"
+                          text="Login"
+                          onAction="#handleLogin"
+                          style="-fx-background-color: #2196F3; -fx-text-fill: white;
+                                 -fx-padding: 12 30; -fx-font-size: 14px; -fx-font-weight: bold;
+                                 -fx-background-radius: 5; -fx-cursor: hand;
+                                 -fx-effect: dropshadow(gaussian, rgba(33,150,243,0.3), 8, 0, 0, 0);"/>
+            </VBox>
+
+            <HBox alignment="CENTER" spacing="10">
+                <Text text="Don't have an account?"
+                      style="-fx-fill: #757575;"/>
+                <JFXButton text="Register"
+                          onAction="#switchToRegister"
+                          style="-fx-text-fill: #2196F3; -fx-cursor: hand;"/>
+            </HBox>
+        </VBox>
+
+        <!-- Register Form -->
+        <VBox fx:id="registerForm" alignment="CENTER" spacing="20"
+              style="-fx-padding: 40px;" visible="false">
+            <Text text="Register"
+                  style="-fx-font-size: 32px; -fx-fill: #2196F3; -fx-font-weight: bold;"/>
+
+            <VBox spacing="20" style="-fx-padding: 20 0;">
+                <JFXTextField fx:id="registerUsername"
+                            promptText="Username"
+                            style="-fx-font-size: 14px; -jfx-focus-color: #2196F3; -jfx-unfocus-color: #BDBDBD;"/>
+                <JFXPasswordField fx:id="registerPassword"
+                                promptText="Password"
+                                style="-fx-font-size: 14px; -jfx-focus-color: #2196F3; -jfx-unfocus-color: #BDBDBD;"/>
+                <JFXPasswordField fx:id="confirmPassword"
+                                promptText="Confirm Password"
+                                style="-fx-font-size: 14px; -jfx-focus-color: #2196F3; -jfx-unfocus-color: #BDBDBD;"/>
+
+                <VBox spacing="10">
+                    <Text text="Choose Role:"
+                          style="-fx-fill: #757575; -fx-font-size: 14px;"/>
+                    <HBox spacing="30">
+                        <JFXRadioButton fx:id="registerAdminRadio"
+                                      text="Project Admin"
+                                      style="-jfx-selected-color: #2196F3;"
+                                      selected="true"/>
+                        <JFXRadioButton fx:id="registerVolunteerRadio"
+                                      text="Volunteer"
+                                      style="-jfx-selected-color: #2196F3;"/>
+                    </HBox>
+                </VBox>
+
+                <JFXButton fx:id="registerButton"
+                          text="Register"
+                          onAction="#handleRegister"
+                          style="-fx-background-color: #2196F3; -fx-text-fill: white;
+                                 -fx-padding: 12 30; -fx-font-size: 14px; -fx-font-weight: bold;
+                                 -fx-background-radius: 5; -fx-cursor: hand;
+                                 -fx-effect: dropshadow(gaussian, rgba(33,150,243,0.3), 8, 0, 0, 0);"/>
+            </VBox>
+
+            <HBox alignment="CENTER" spacing="10">
+                <Text text="Already have an account?"
+                      style="-fx-fill: #757575;"/>
+                <JFXButton text="Login"
+                          onAction="#switchToLogin"
+                          style="-fx-text-fill: #2196F3; -fx-cursor: hand;"/>
+            </HBox>
+        </VBox>
+    </StackPane>
+</HBox>

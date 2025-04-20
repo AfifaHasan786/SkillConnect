@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import com.jfoenix.controls.*?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.skillconnect.controllers.ReviewApplicationsController"
+      spacing="20"
+      styleClass="review-applications">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="Project Applications" styleClass="section-title"/>
+
+    <!-- Filters Section -->
+    <HBox spacing="15" alignment="CENTER_LEFT">
+        <ComboBox fx:id="projectFilter" promptText="Select Project" prefWidth="200"/>
+        <ComboBox fx:id="statusFilter" promptText="Status" prefWidth="150"/>
+        <TextField fx:id="searchField" promptText="Search volunteers..." HBox.hgrow="ALWAYS"/>
+    </HBox>
+
+    <!-- Main Content -->
+    <SplitPane dividerPositions="0.6" VBox.vgrow="ALWAYS">
+        <!-- Applications Table -->
+        <TableView fx:id="applicationsTable">
+            <columns>
+                <TableColumn fx:id="dateColumn" text="Date" prefWidth="120"/>
+                <TableColumn fx:id="projectColumn" text="Project" prefWidth="200"/>
+                <TableColumn fx:id="volunteerColumn" text="Volunteer" prefWidth="150"/>
+                <TableColumn fx:id="skillsColumn" text="Skills" prefWidth="200"/>
+                <TableColumn fx:id="statusColumn" text="Status" prefWidth="100"/>
+                <TableColumn fx:id="actionsColumn" text="Actions" prefWidth="100"/>
+            </columns>
+        </TableView>
+
+        <!-- Application Details Section -->
+        <TitledPane text="Application Details" expanded="false">
+            <VBox spacing="15" styleClass="application-details">
+                <GridPane vgap="10" hgap="10">
+                    <Label text="Volunteer Name:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <Label fx:id="volunteerNameLabel" styleClass="detail-value" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                    <Label text="Email:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                    <Label fx:id="emailLabel" styleClass="detail-value" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                    <Label text="Phone:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                    <Label fx:id="phoneLabel" styleClass="detail-value" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                    <Label text="Skills:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                    <Label fx:id="skillsLabel" styleClass="detail-value" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                </GridPane>
+
+                <Label text="Bio:"/>
+                <TextArea fx:id="bioArea" wrapText="true" editable="false" prefRowCount="4"/>
+
+                <HBox spacing="10" alignment="CENTER_RIGHT">
+                    <JFXButton fx:id="approveButton" text="Approve" styleClass="button-success"/>
+                    <JFXButton fx:id="rejectButton" text="Reject" styleClass="button-danger"/>
+                    <JFXButton fx:id="messageButton" text="Message" styleClass="button-primary"/>
+                </HBox>
+            </VBox>
+        </TitledPane>
+    </SplitPane>
+</VBox>
