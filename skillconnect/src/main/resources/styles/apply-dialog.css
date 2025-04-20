@@ -1,0 +1,200 @@
+.root {
+    -fx-background-color: white;
+    -fx-text-fill: #212121;
+}
+
+.label {
+    -fx-text-fill: #212121;
+    -fx-background-color: transparent;
+}
+
+.text {
+    -fx-fill: #212121;
+}
+
+.combo-box {
+    -fx-background-color: white;
+    -fx-border-color: #e0e0e0;
+    -fx-border-radius: 4;
+}
+
+.combo-box .list-cell {
+    -fx-text-fill: #212121;
+    -fx-background-color: white;
+    -fx-padding: 8 12;
+}
+
+.combo-box .list-cell:hover {
+    -fx-background-color: #f5f5f5;
+}
+
+.combo-box .list-view {
+    -fx-background-color: white;
+    -fx-border-color: #e0e0e0;
+}
+
+.skill-tag {
+    -fx-background-color: #f5f5f5;
+    -fx-text-fill: #212121;
+    -fx-padding: 4 12;
+    -fx-background-radius: 16;
+    -fx-border-radius: 16;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1;
+    -fx-font-size: 12px;
+    -fx-margin: 4;
+}
+
+.skill-chip {
+    -fx-background-color: #ff1744;
+    -fx-background-radius: 16;
+    -fx-padding: 4 8 4 12;
+    -fx-spacing: 8;
+    -fx-alignment: center;
+    -fx-margin: 4;
+}
+
+.skill-chip .label {
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+}
+
+.skill-chip .close-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+    -fx-min-width: 20;
+    -fx-min-height: 20;
+    -fx-graphic-text-gap: 0;
+}
+
+.skill-chip .close-button .glyph-icon {
+    -fx-fill: white;
+}
+
+.button-primary {
+    -fx-background-color: #ff1744;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8 16;
+    -fx-background-radius: 4;
+}
+
+.button-primary:hover {
+    -fx-background-color: #f01540;
+}
+
+.button-secondary {
+    -fx-background-color: transparent;
+    -fx-text-fill: #ff1744;
+    -fx-border-color: #ff1744;
+    -fx-border-width: 1;
+    -fx-font-weight: bold;
+    -fx-padding: 8 16;
+    -fx-background-radius: 4;
+    -fx-border-radius: 4;
+}
+
+.button-secondary:hover {
+    -fx-background-color: rgba(255, 23, 68, 0.1);
+}
+
+.flow-pane {
+    -fx-hgap: 8;
+    -fx-vgap: 8;
+    -fx-padding: 8;
+}
+
+#projectTitle {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-fill: #212121;
+}
+
+#projectDescription {
+    -fx-font-size: 14px;
+    -fx-fill: #757575;
+    -fx-wrap-text: true;
+}
+
+#requiredSkillsContainer {
+    -fx-background-color: #fafafa;
+    -fx-padding: 12;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1;
+}
+
+.dialog-container {
+    -fx-background-color: white;
+}
+
+.dialog-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-fill: #2c3e50;
+}
+
+.dialog-description {
+    -fx-font-size: 14px;
+    -fx-fill: #34495e;
+}
+
+.section-label {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.skills-container {
+    -fx-background-color: #f8f9fa;
+    -fx-padding: 10;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-min-height: 50;
+}
+
+.button-primary {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8 15;
+    -fx-background-radius: 5;
+}
+
+.button-primary:hover {
+    -fx-background-color: #2980b9;
+}
+
+.button-secondary {
+    -fx-background-color: #95a5a6;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8 15;
+    -fx-background-radius: 5;
+}
+
+.button-secondary:hover {
+    -fx-background-color: #7f8c8d;
+}
+
+.combo-box {
+    -fx-background-color: white;
+    -fx-border-color: #bdc3c7;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+.combo-box:focused {
+    -fx-border-color: #3498db;
+}
+
+.skill-chip {
+    -fx-background-color: #e1f5fe;
+    -fx-padding: 5 10;
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+    -fx-border-color: #81d4fa;
+    -fx-text-fill: #0288d1;
+    -fx-font-size: 12px;
+}

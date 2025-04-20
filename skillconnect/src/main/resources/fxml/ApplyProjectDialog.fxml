@@ -1,81 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import com.jfoenix.controls.*?>
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.text.*?>
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import com.jfoenix.controls.*?>
+<?import de.jensd.fx.glyphs.fontawesome.*?>
+<?import javafx.geometry.Insets?>
 
-<VBox fx:id="root" spacing="20" styleClass="dialog-pane" xmlns:fx="http://javafx.com/fxml"
+<VBox fx:id="root" spacing="15" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.skillconnect.controllers.ApplyProjectDialogController"
-      stylesheets="@../styles/styles.css">
+      styleClass="dialog-container">
+
     <padding>
-        <Insets top="25" right="30" bottom="25" left="30"/>
+        <Insets top="20" right="20" bottom="20" left="20"/>
     </padding>
 
-    <!-- Header -->
-    <HBox alignment="CENTER" styleClass="dialog-header">
-        <FontAwesomeIconView glyphName="PAPER_PLANE" size="24" styleClass="header-icon"/>
-        <Text text="Apply for Project" styleClass="dialog-title">
-            <font>
-                <Font size="24"/>
-            </font>
-        </Text>
-    </HBox>
+    <Text fx:id="projectTitle" styleClass="dialog-title"/>
 
-    <VBox spacing="20">
-        <!-- Project Details Section -->
-        <VBox spacing="10" styleClass="section-box">
-            <Label text="Project Details" styleClass="section-title"/>
+    <Text fx:id="projectDescription" styleClass="dialog-description" wrappingWidth="400"/>
 
-            <VBox spacing="5">
-                <Label text="Title" styleClass="field-label"/>
-                <Text fx:id="projectTitle" styleClass="project-title"/>
-            </VBox>
-
-            <VBox spacing="5">
-                <Label text="Description" styleClass="field-label"/>
-                <Text fx:id="projectDescription" styleClass="project-description" wrappingWidth="500"/>
-            </VBox>
-        </VBox>
-
-        <!-- Skills Section -->
-        <VBox spacing="15" styleClass="section-box">
-            <Label text="Skills" styleClass="section-title"/>
-
-            <VBox spacing="10">
-                <Label text="Required Skills" styleClass="field-label"/>
-                <FlowPane fx:id="requiredSkillsContainer" hgap="10" vgap="10" styleClass="skills-container"/>
-            </VBox>
-
-            <VBox spacing="10">
-                <Label text="Select Your Matching Skills" styleClass="field-label"/>
-                <HBox spacing="10" alignment="CENTER_LEFT">
-                    <ComboBox fx:id="skillsComboBox" promptText="Choose your skills"
-                             styleClass="skills-combo" HBox.hgrow="ALWAYS"/>
-                    <JFXButton fx:id="addSkillButton" text="Add" styleClass="button-secondary">
-                        <graphic>
-                            <FontAwesomeIconView glyphName="PLUS" size="12"/>
-                        </graphic>
-                    </JFXButton>
-                </HBox>
-                <FlowPane fx:id="selectedSkillsContainer" hgap="10" vgap="10" styleClass="skills-container"/>
-            </VBox>
-        </VBox>
+    <VBox spacing="10">
+        <Label text="Required Skills:" styleClass="section-label"/>
+        <FlowPane fx:id="requiredSkillsContainer" hgap="10" vgap="10" styleClass="skills-container"/>
     </VBox>
 
-    <!-- Action Buttons -->
-    <HBox spacing="15" alignment="CENTER_RIGHT" styleClass="dialog-actions">
-        <JFXButton text="Cancel" onAction="#handleCancel" styleClass="button-secondary">
-            <graphic>
-                <FontAwesomeIconView glyphName="TIMES" size="12"/>
-            </graphic>
-        </JFXButton>
-        <JFXButton text="Apply" onAction="#handleApply" styleClass="button-primary">
-            <graphic>
-                <FontAwesomeIconView glyphName="CHECK" size="12"/>
-            </graphic>
-        </JFXButton>
+    <VBox spacing="10">
+        <Label text="Your Skills:" styleClass="section-label"/>
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <ComboBox fx:id="skillsComboBox" prefWidth="200"/>
+            <JFXButton fx:id="addSkillButton" text="Add Skill" styleClass="button-primary"/>
+        </HBox>
+        <FlowPane fx:id="selectedSkillsContainer" hgap="10" vgap="10" styleClass="skills-container"/>
+    </VBox>
+
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <JFXButton text="Cancel" onAction="#handleCancel" styleClass="button-secondary"/>
+        <JFXButton text="Apply" onAction="#handleApply" styleClass="button-primary"/>
     </HBox>
 </VBox>
