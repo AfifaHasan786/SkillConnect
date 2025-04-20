@@ -6,11 +6,12 @@ import com.skillconnect.utils.DatabaseConnection;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ApplicationService {
 
     public boolean submitApplication(int projectId, User applicant, List<Skill> selectedSkills, String coverLetter) {
-        String sql = "INSERT INTO applications (project_id, applicant_id, status, cover_letter, application_date) " +
+        String sql = "INSERT INTO project_applications (project_id, volunteer_id, status, selected_skills, applied_at) " +
                     "VALUES (?, ?, 'PENDING', ?, CURRENT_TIMESTAMP)";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -18,7 +19,12 @@ public class ApplicationService {
 
             pstmt.setInt(1, projectId);
             pstmt.setInt(2, applicant.getId());
-            pstmt.setString(3, coverLetter);
+
+            // Convert skills list to comma-separated string
+            String skillsString = selectedSkills.stream()
+                .map(Skill::getName)
+                .collect(Collectors.joining(","));
+            pstmt.setString(3, skillsString);
 
             int affectedRows = pstmt.executeUpdate();
 
@@ -26,14 +32,7 @@ public class ApplicationService {
                 return false;
             }
 
-            try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    int applicationId = generatedKeys.getInt(1);
-                    return insertApplicationSkills(applicationId, selectedSkills);
-                } else {
-                    return false;
-                }
-            }
+            return true;
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -42,7 +41,7 @@ public class ApplicationService {
     }
 
     private boolean insertApplicationSkills(int applicationId, List<Skill> skills) {
-        String sql = "INSERT INTO application_skills (application_id, skill_id) VALUES (?, ?)";
+        String sql = "INSERT INTO project_application_skills (application_id, skill_id) VALUES (?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {

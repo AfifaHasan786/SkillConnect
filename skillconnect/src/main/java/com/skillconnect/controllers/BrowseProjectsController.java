@@ -13,12 +13,13 @@ import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.scene.Scene;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -26,6 +27,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.io.IOException;
 
 public class BrowseProjectsController implements Initializable {
     @FXML private TableView<Project> projectsTable;
@@ -124,27 +126,39 @@ public class BrowseProjectsController implements Initializable {
 
     private void showApplyDialog(Project project) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ApplyProjectDialog.fxml"));
+            // Load the FXML file
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(BrowseProjectsController.class.getResource("/fxml/ApplyProjectDialog.fxml"));
+
+            // Create the dialog Stage
             Stage dialog = new Stage();
             dialog.initModality(Modality.APPLICATION_MODAL);
             dialog.setTitle("Apply for Project");
+            dialog.setResizable(false);
 
-            Scene scene = new Scene(loader.load());
+            // Create the scene
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+
+            // Set the scene and show the stage
             dialog.setScene(scene);
 
+            // Get the controller and set the project
             ApplyProjectDialogController controller = loader.getController();
             controller.setProject(project);
             controller.setCurrentUser(currentUser);
 
+            // Show dialog and wait for it to close
             dialog.showAndWait();
 
             // Refresh the projects list after dialog is closed
             loadProjects();
         } catch (Exception e) {
+            e.printStackTrace();
             AlertUtils.showErrorAlert(
                 "Dialog Error",
-                null,
-                "Failed to open application dialog: " + e.getMessage()
+                "Failed to open application dialog",
+                e.getMessage()
             );
         }
     }
